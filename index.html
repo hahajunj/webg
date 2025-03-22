@@ -1,0 +1,2941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Narrow One - 5v5 Multiplayer Bow Battle | game.junj.app</title>
+    <meta name="description" content="Battle players around the world with your bow and arrow. Defend your castle, steal the flag with your teammates and win the battle. Narrow One is a multiplayer medieval-style bow and arrow shooter, 5v5.">
+    <link rel="canonical" href="https://game.junj.app/">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // 检测iOS设备并添加类
+        document.addEventListener('DOMContentLoaded', function() {
+            if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+                document.body.classList.add('ios-device');
+            }
+        });
+        
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            black: '#0f0f12',
+                            darkblue: '#1A1A2E',
+                            blue: '#0a2472',
+                            purple: '#4f0147',
+                            pink: '#ff2e63',
+                            cyan: '#00f6ff',
+                            yellow: '#ffb300'
+                        }
+                    },
+                    fontFamily: {
+                        orbitron: ['Orbitron', 'sans-serif'],
+                        rajdhani: ['Rajdhani', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: #0f0f12;
+            color: #edf2f7;
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(0, 246, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(255, 46, 99, 0.05) 0%, transparent 50%);
+        }
+
+        .neon-text {
+            color: #fff;
+            text-shadow: 
+                0 0 5px #fff, 
+                0 0 10px #fff, 
+                0 0 20px #00f6ff, 
+                0 0 40px #00f6ff, 
+                0 0 80px #00f6ff;
+        }
+
+        .neon-pink {
+            color: #fff;
+            text-shadow: 
+                0 0 5px #fff, 
+                0 0 10px #fff, 
+                0 0 20px #ff2e63, 
+                0 0 40px #ff2e63, 
+                0 0 80px #ff2e63;
+        }
+
+        .neon-border {
+            box-shadow: 
+                0 0 5px #00f6ff, 
+                0 0 10px rgba(0, 246, 255, 0.8), 
+                inset 0 0 5px rgba(0, 246, 255, 0.2);
+            border: 1px solid rgba(0, 246, 255, 0.5);
+        }
+
+        .pink-border {
+            box-shadow: 
+                0 0 5px #ff2e63, 
+                0 0 10px rgba(255, 46, 99, 0.8), 
+                inset 0 0 5px rgba(255, 46, 99, 0.2);
+            border: 1px solid rgba(255, 46, 99, 0.5);
+        }
+
+        .yellow-border {
+            box-shadow: 
+                0 0 5px #ffb300, 
+                0 0 10px rgba(255, 179, 0, 0.8), 
+                inset 0 0 5px rgba(255, 179, 0, 0.2);
+            border: 1px solid rgba(255, 179, 0, 0.5);
+        }
+
+        /* Enhanced cyberpunk effects */
+        .terminal-text::before {
+            content: "> ";
+            color: #00f6ff;
+        }
+
+        .scanline {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scanline::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                transparent 50%,
+                rgba(0, 246, 255, 0.02) 51%,
+                rgba(0, 246, 255, 0.02) 52%,
+                transparent 53%
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            animation: scanline 6s linear infinite;
+        }
+
+        @keyframes scanline {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 0 100%;
+            }
+        }
+
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.05;
+            z-index: 9999;
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAAAh1BMVEUAAABKSktAQEJCQkNDQ0RBQUJERERERERDQkNAP0FDQ0NFRUVCQkNAQEFDQ0NEREREREQ/Pz9ERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERERSfmxTAAAALHRSTlMAAgMICQ4PERITFRYXGBkaHB4gIiMmKi0uMzc6PD9BQ0dITlBdYmVmanJ6fUTItdwAAAHISURBVFjD7ZfZuoIgFIVRNC3QMk3Loew4bt//+U6hIINlnM59/WuDtRcbNhQVZrGz9+F03DqiQ3JwTsc+9J2diChbyMGInBYFF28T0Sgc1Y9DHrul3MMontxBsbiDin0RcZBb+xKCfgsh8O7xOwTNFsLgW+QtBNUWAudpfoMg2UIYnCDeQFC0EPrGH/dTBFELgTfKrxEELQTeUH6HwG8hiCbyGwRuCyGZyS8IMEMQH1QMQQYInFWCnCHwVgpSI/BXCrpGsFspiI1gz5cKQmuEw1pBbRDYa/elS0H1GYGzWtALRNAVghyEodmXzhF4b0JQhSDtMwKzP0JQfUJgvwlB9QGB/S4E2XuCr3chqN4T+O9CUL0liN+GoNqfMf6wP0OQmwXj3IUgNglWCNL9CUGqE+wTAt1+9a8Eg851e5NAM+8fCPx+f0WQ6gRqBOpe9T51r7oD1L3qXpL3qntX3qsnQncXdndhdxd2d+H/uavQwwMZ3ANnjE4eFGR09rIkwePjKx9n97LB7GqH0d0SJIgGd1vcbvf4vcHlfpvbA0d2Dx3ZPXhmTnJg9PCd3QsA00sI00sQ04so01LG8CIA8+0Y05dznO8HmV+QMr+i9QNPXlYR2eoYXAAAAABJRU5ErkJggg==');
+            background-repeat: repeat;
+            background-size: 100px 100px;
+            transform: rotate(45deg);
+            animation: circuitMove 60s linear infinite;
+        }
+
+        @keyframes circuitMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 100px 100px; }
+        }
+
+        /* 增强光束效果 */
+        .light-beam {
+            position: absolute;
+            background: linear-gradient(to bottom, 
+                rgba(0, 246, 255, 0) 0%, 
+                rgba(0, 246, 255, 0.8) 50%, 
+                rgba(0, 246, 255, 0) 100%);
+            height: 100vh;
+            opacity: 0;
+            animation: lightBeam 8s infinite;
+            box-shadow: 0 0 15px rgba(0, 246, 255, 0.6);
+            filter: blur(1px);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .light-beam:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -1px;
+            width: 1px;
+            height: 100%;
+            background: linear-gradient(to bottom, 
+                rgba(0, 246, 255, 0) 0%, 
+                rgba(0, 246, 255, 0.3) 50%, 
+                rgba(0, 246, 255, 0) 100%);
+            filter: blur(3px);
+        }
+
+        .light-beam:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -1px;
+            width: 1px;
+            height: 100%;
+            background: linear-gradient(to bottom, 
+                rgba(0, 246, 255, 0) 0%, 
+                rgba(0, 246, 255, 0.3) 50%, 
+                rgba(0, 246, 255, 0) 100%);
+            filter: blur(3px);
+        }
+
+        .light-beam:nth-child(2n) {
+            background: linear-gradient(to bottom, 
+                rgba(255, 46, 99, 0) 0%, 
+                rgba(255, 46, 99, 0.8) 50%, 
+                rgba(255, 46, 99, 0) 100%);
+            animation-delay: 2s;
+            z-index: 0; /* 确保所有光束都在同一图层 */
+            box-shadow: 0 0 15px rgba(255, 46, 99, 0.6);
+        }
+
+        .light-beam:nth-child(2n):before,
+        .light-beam:nth-child(2n):after {
+            background: linear-gradient(to bottom, 
+                rgba(255, 46, 99, 0) 0%, 
+                rgba(255, 46, 99, 0.3) 50%, 
+                rgba(255, 46, 99, 0) 100%);
+        }
+
+        .light-beam:nth-child(3n) {
+            background: linear-gradient(to bottom, 
+                rgba(255, 255, 0, 0) 0%, 
+                rgba(255, 255, 0, 0.8) 50%, 
+                rgba(255, 255, 0, 0) 100%);
+            animation-delay: 4s;
+            z-index: 0; /* 确保所有光束都在同一图层 */
+            box-shadow: 0 0 15px rgba(255, 255, 0, 0.6);
+        }
+
+        .light-beam:nth-child(3n):before,
+        .light-beam:nth-child(3n):after {
+            background: linear-gradient(to bottom, 
+                rgba(255, 255, 0, 0) 0%, 
+                rgba(255, 255, 0, 0.3) 50%, 
+                rgba(255, 255, 0, 0) 100%);
+        }
+
+        @keyframes lightBeam {
+            0%, 100% { 
+                opacity: 0; 
+                transform: translateX(0) scaleX(1);
+            }
+            10%, 90% { 
+                opacity: 0.3; 
+                transform: translateX(0) scaleX(1.2); 
+            }
+            50% { 
+                opacity: 0.6; 
+                transform: translateX(100vw) scaleX(0.8); 
+            }
+        }
+
+        /* 增强网站整体赛博朋克感 */
+        .cyber-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.75rem;
+            background: rgba(10, 10, 15, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 246, 255, 0.3);
+            box-shadow: 
+                0 0 30px rgba(0, 246, 255, 0.2),
+                inset 0 0 30px rgba(0, 246, 255, 0.1);
+            transition: all 0.4s ease;
+            z-index: 1;
+        }
+
+        .cyber-container:hover {
+            transform: translateY(-7px) scale(1.02);
+            box-shadow: 
+                0 15px 40px rgba(0, 246, 255, 0.4),
+                inset 0 0 30px rgba(0, 246, 255, 0.2);
+        }
+
+        .cyber-container::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.1) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: rotate(30deg);
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .cyber-container:hover::after {
+            opacity: 1;
+            animation: shine 1.5s forwards;
+        }
+
+        @keyframes shine {
+            0% {
+                transform: rotate(30deg) translateY(100%);
+            }
+            100% {
+                transform: rotate(30deg) translateY(-100%);
+            }
+        }
+
+        /* 增强按钮效果 */
+        .cyber-button-enhanced {
+            position: relative;
+            background: linear-gradient(
+                45deg,
+                rgba(0, 246, 255, 0.1),
+                rgba(0, 246, 255, 0.2)
+            );
+            color: #00f6ff;
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 12px 24px;
+            border: 1px solid rgba(0, 246, 255, 0.3);
+            border-radius: 3px;
+            box-shadow: 0 0 15px rgba(0, 246, 255, 0.2);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            z-index: 1;
+        }
+
+        .cyber-button-enhanced::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.05),
+                rgba(255, 255, 255, 0)
+            );
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+            z-index: -1;
+        }
+
+        .cyber-button-enhanced:hover {
+            color: white;
+            border-color: rgba(0, 246, 255, 0.8);
+            box-shadow: 
+                0 0 20px rgba(0, 246, 255, 0.5),
+                0 0 40px rgba(0, 246, 255, 0.3);
+            text-shadow: 0 0 5px #00f6ff;
+        }
+
+        .cyber-button-enhanced:hover::before {
+            transform: translateX(0);
+        }
+
+        /* 增强点状装饰 */
+        .cyber-dots {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .cyber-dot {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background-color: rgba(0, 246, 255, 0.8);
+            border-radius: 50%;
+            animation: dotPulse 3s infinite;
+        }
+
+        @keyframes dotPulse {
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.5); }
+        }
+
+        /* 游戏标题动态效果 */
+        .title-container {
+            position: relative;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            transition: all 0.5s ease-in-out;
+        }
+        
+        .title-text {
+            position: relative;
+            display: inline-block;
+            z-index: 1;
+        }
+        
+        .title-text .medieval {
+            background: linear-gradient(to right, #ff0066 0%, #ff4d94 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 10px rgba(255, 0, 102, 0.4));
+            position: relative;
+            animation: textPulse 4s infinite ease-in-out;
+        }
+        
+        .title-text .archer {
+            background: linear-gradient(to right, #00ccff 0%, #00ffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 10px rgba(0, 204, 255, 0.4));
+            position: relative;
+            animation: textPulse 4s infinite ease-in-out 2s;
+        }
+        
+        @keyframes textPulse {
+            0%, 100% {
+                filter: drop-shadow(0 0 8px rgba(255, 0, 102, 0.3));
+            }
+            50% {
+                filter: drop-shadow(0 0 15px rgba(255, 0, 102, 0.7));
+            }
+        }
+        
+        .title-glow {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: radial-gradient(
+                ellipse at center,
+                rgba(255, 255, 255, 0.2) 0%,
+                rgba(255, 255, 255, 0) 70%
+            );
+            filter: blur(20px);
+            opacity: 0;
+            mix-blend-mode: overlay;
+            animation: titleGlow 8s ease-in-out infinite; /* 更慢的动画 */
+            pointer-events: none;
+        }
+        
+        @keyframes titleGlow {
+            0%, 100% { 
+                opacity: 0; 
+                transform: scale(0.5) translateX(-30%); 
+            }
+            50% { 
+                opacity: 0.5; 
+                transform: scale(1) translateX(0); 
+            }
+        }
+
+        /* 改善JUNJ.US.KG品牌效果 */
+        .site-name {
+            display: inline-block;
+            font-size: 1.7em;
+            font-weight: 900;
+            letter-spacing: 2px;
+            background: linear-gradient(to right, #00f6ff, #0050c0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 12px rgba(0, 246, 255, 0.9));
+            animation: sitePulse 4s infinite;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+        }
+
+        .site-domain {
+            display: inline-block;
+            font-size: 1.4em;
+            font-weight: 700;
+            background: linear-gradient(to right, #ff2e63, #ff004c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 12px rgba(255, 46, 99, 0.9));
+            text-transform: uppercase;
+            animation: sitePulse 4s infinite 1s;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes sitePulse {
+            0%, 100% {
+                filter: drop-shadow(0 0 8px rgba(0, 246, 255, 0.7));
+            }
+            50% {
+                filter: drop-shadow(0 0 20px rgba(0, 246, 255, 1.0));
+            }
+        }
+
+        .brand-container {
+            position: relative;
+            overflow: hidden;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .brand-container:before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00f6ff, #ff2e63, #ffb300, #00f6ff);
+            background-size: 400% 400%;
+            z-index: 0;
+            animation: gradientBorder 6s ease infinite;
+            border-radius: 6px;
+            opacity: 0.7;
+        }
+
+        .brand-container:after {
+            content: '';
+            position: absolute;
+            top: 1px;
+            left: 1px;
+            right: 1px;
+            bottom: 1px;
+            background: rgba(15, 15, 18, 0.7);
+            z-index: 0;
+            border-radius: 3px;
+        }
+
+        @keyframes gradientBorder {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* 添加鼠标移动相关效果 */
+        .cyber-parallax {
+            transition: transform 0.2s ease-out;
+            will-change: transform;
+        }
+
+        .mouse-glow {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            pointer-events: none;
+            background: radial-gradient(
+                circle,
+                rgba(0, 246, 255, 0.15) 0%,
+                rgba(0, 246, 255, 0.05) 30%,
+                transparent 70%
+            );
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        /* 重新设计JUNJ.US.KG品牌效果，使其更融入整体设计 */
+        .site-name {
+            display: inline-block;
+            font-size: 1.7em;
+            font-weight: 900;
+            letter-spacing: 2px;
+            background: linear-gradient(to right, #00f6ff, #0050c0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 12px rgba(0, 246, 255, 0.9));
+            animation: sitePulse 4s infinite;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+        }
+
+        .site-domain {
+            display: inline-block;
+            font-size: 1.4em;
+            font-weight: 700;
+            background: linear-gradient(to right, #ff2e63, #ff004c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 12px rgba(255, 46, 99, 0.9));
+            text-transform: uppercase;
+            animation: sitePulse 4s infinite 1s;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes sitePulse {
+            0%, 100% {
+                filter: drop-shadow(0 0 8px rgba(0, 246, 255, 0.7));
+            }
+            50% {
+                filter: drop-shadow(0 0 20px rgba(0, 246, 255, 1.0));
+            }
+        }
+
+        /* 全新的赛博朋克风格品牌容器 */
+        .cyber-brand-container {
+            position: relative;
+            overflow: hidden;
+            padding: 0.5rem 1rem 0.5rem 1.6rem;
+            background: rgba(10, 10, 15, 0.7);
+            clip-path: polygon(
+                0 0, 
+                100% 0, 
+                100% 70%, 
+                95% 100%, 
+                0 100%, 
+                5% 70%
+            );
+            border-top: 1px solid rgba(0, 246, 255, 0.5);
+            border-bottom: 1px solid rgba(255, 46, 99, 0.5);
+        }
+
+        /* 添加科技感装饰元素 */
+        .cyber-brand-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(90deg, 
+                    transparent 0%, 
+                    transparent 5%,
+                    rgba(0, 246, 255, 0.1) 5%, 
+                    rgba(0, 246, 255, 0.1) 10%,
+                    transparent 10%,
+                    transparent 90%,
+                    rgba(255, 46, 99, 0.1) 90%,
+                    rgba(255, 46, 99, 0.1) 95%,
+                    transparent 95%
+                );
+            z-index: -1;
+        }
+
+        /* 动态扫描线效果 */
+        .cyber-brand-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 150%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(0, 246, 255, 0.1) 15%,
+                rgba(255, 255, 255, 0.3) 20%,
+                rgba(255, 46, 99, 0.1) 25%,
+                transparent 30%
+            );
+            z-index: 1;
+            animation: scanEffect 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes scanEffect {
+            0% {
+                left: -150%;
+            }
+            50% {
+                left: 150%;
+            }
+            100% {
+                left: -150%;
+            }
+        }
+
+        /* 左侧技术装饰 */
+        .cyber-brand-decoration {
+            position: absolute;
+            height: calc(100% - 6px);
+            width: 3px;
+            background: linear-gradient(to bottom, #00f6ff, transparent 40%, transparent 60%, #ff2e63);
+            left: 3px;
+            top: 3px;
+        }
+
+        .cyber-brand-decoration::before, 
+        .cyber-brand-decoration::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            left: -1.5px;
+        }
+
+        .cyber-brand-decoration::before {
+            top: -3px;
+            background: #00f6ff;
+            box-shadow: 0 0 8px #00f6ff;
+        }
+
+        .cyber-brand-decoration::after {
+            bottom: -3px;
+            background: #ff2e63;
+            box-shadow: 0 0 8px #ff2e63;
+        }
+
+        /* 增强鼠标移动效果，使其更明显和更赛博风格 */
+        .cyber-parallax {
+            transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            will-change: transform;
+        }
+
+        /* 增强的鼠标光效 */
+        .mouse-glow {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            pointer-events: none;
+            background: radial-gradient(
+                circle,
+                rgba(0, 246, 255, 0.2) 0%,
+                rgba(0, 246, 255, 0.1) 20%,
+                rgba(0, 246, 255, 0.05) 40%,
+                transparent 70%
+            );
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.2s ease;
+            z-index: 100;
+            mix-blend-mode: screen;
+        }
+
+        /* 添加鼠标跟随十字准星 */
+        .mouse-target {
+            position: fixed;
+            width: 50px;
+            height: 50px;
+            pointer-events: none;
+            z-index: 101;
+            transform: translate(-50%, -50%);
+            opacity: 0.7;
+        }
+
+        .target-line {
+            position: absolute;
+            background: rgba(0, 246, 255, 0.7);
+        }
+
+        .target-h-line {
+            height: 1px;
+            width: 100%;
+            top: 50%;
+            left: 0;
+        }
+
+        .target-v-line {
+            width: 1px;
+            height: 100%;
+            left: 50%;
+            top: 0;
+        }
+
+        .target-corner {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border: 1px solid rgba(0, 246, 255, 0.8);
+        }
+
+        .target-tl {
+            top: 0;
+            left: 0;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .target-tr {
+            top: 0;
+            right: 0;
+            border-left: none;
+            border-bottom: none;
+        }
+
+        .target-bl {
+            bottom: 0;
+            left: 0;
+            border-right: none;
+            border-top: none;
+        }
+
+        .target-br {
+            bottom: 0;
+            right: 0;
+            border-left: none;
+            border-top: none;
+        }
+
+        /* 鼠标数据指示器 */
+        .mouse-data {
+            position: fixed;
+            pointer-events: none;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 10px;
+            color: rgba(0, 246, 255, 0.8);
+            text-shadow: 0 0 5px rgba(0, 246, 255, 0.5);
+            z-index: 102;
+            text-transform: uppercase;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .data-x {
+            transform: translateX(-100%);
+            margin-left: -10px;
+        }
+
+        .data-y {
+            transform: translateY(-100%);
+            margin-top: -10px;
+        }
+
+        /* 鼠标点击效果 */
+        .mouse-click-effect {
+            position: fixed;
+            width: 100px;
+            height: 100px;
+            pointer-events: none;
+            border-radius: 50%;
+            border: 1px solid rgba(0, 246, 255, 0.8);
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            z-index: 99;
+        }
+
+        @keyframes clickRipple {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* 鼠标移动网格效果 */
+        .mouse-grid {
+            position: fixed;
+            width: 150px;
+            height: 150px;
+            pointer-events: none;
+            background-image: 
+                linear-gradient(to right, rgba(0, 246, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 246, 255, 0.1) 1px, transparent 1px);
+            background-size: 10px 10px;
+            border: 1px solid rgba(0, 246, 255, 0.3);
+            transform: translate(-50%, -50%) rotate(0deg);
+            z-index: 98;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.2s ease;
+        }
+
+        /* 新增轨迹效果样式 */
+        .mouse-trail {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            pointer-events: none;
+            background: rgba(0, 246, 255, 0.5);
+            border-radius: 50%;
+            z-index: 98;
+            opacity: 0;
+            mix-blend-mode: screen;
+            filter: blur(2px);
+        }
+
+        /* 移除鼠标相关无用的样式 */
+        .mouse-target, .target-line, .target-h-line, .target-v-line, .target-corner, .target-tl, .target-tr, .target-bl, .target-br, .mouse-data, .data-x, .data-y, .mouse-grid {
+            display: none;
+        }
+
+        /* 修改cyber-grid样式 */
+        .cyber-grid {
+            display: none;
+        }
+
+        /* 添加Game Controls和Game Features合并版块的悬停效果 */
+        .combined-section {
+            border-left: 3px solid rgba(0, 246, 255, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .combined-section:hover {
+            border-left: 3px solid #00f6ff;
+            transform: translateX(5px);
+        }
+
+        .combined-section:hover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(0, 246, 255, 0.1) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        /* 增强背景JUNJ效果，使其更密集但保持平滑 */
+        .cyber-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .bg-logo {
+            position: absolute;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            color: rgba(0, 246, 255, 0.04);
+            font-size: 25vw; /* 缩小字体使能放置更多元素 */
+            line-height: 1;
+            white-space: nowrap;
+            pointer-events: none;
+            text-transform: uppercase;
+            animation: bgLogoFloat 120s linear infinite;
+            text-shadow: 
+                0 0 15px rgba(0, 246, 255, 0.15),
+                0 0 30px rgba(0, 246, 255, 0.1),
+                0 0 45px rgba(0, 246, 255, 0.05);
+            letter-spacing: 0.1em;
+            opacity: 0.35; /* 降低不透明度使效果更柔和 */
+            -webkit-text-stroke: 1px rgba(0, 246, 255, 0.15);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            transition: all 3s ease; /* 平滑过渡 */
+        }
+
+        .bg-logo:nth-child(2n) {
+            color: rgba(255, 46, 99, 0.04);
+            animation-duration: 150s; /* 更慢的动画 */
+            animation-direction: reverse;
+            text-shadow: 
+                0 0 15px rgba(255, 46, 99, 0.15),
+                0 0 30px rgba(255, 46, 99, 0.1),
+                0 0 45px rgba(255, 46, 99, 0.05);
+            -webkit-text-stroke: 1px rgba(255, 46, 99, 0.15);
+        }
+
+        .bg-logo:nth-child(3n) {
+            color: rgba(255, 255, 0, 0.04);
+            animation-duration: 180s; /* 更慢的动画 */
+            text-shadow: 
+                0 0 15px rgba(255, 255, 0, 0.15),
+                0 0 30px rgba(255, 255, 0, 0.1),
+                0 0 45px rgba(255, 255, 0, 0.05);
+            -webkit-text-stroke: 1px rgba(255, 255, 0, 0.15);
+        }
+
+        /* 改进故障效果，更平滑的过渡 */
+        .bg-logo.glitch {
+            animation: bgLogoGlitch 1.2s ease-in-out; /* 更平滑的故障效果 */
+        }
+
+        @keyframes bgLogoGlitch {
+            0%, 100% {
+                transform: translate(0, 0);
+                opacity: 0.4;
+                filter: none;
+            }
+            20% {
+                transform: translate(-3px, 0);
+                opacity: 0.5;
+                text-shadow: -2px 0 rgba(255, 0, 255, 0.3);
+                filter: drop-shadow(0 0 2px rgba(0, 255, 255, 0.5)) hue-rotate(30deg);
+            }
+            40% {
+                transform: translate(2px, -1px);
+                opacity: 0.45;
+                text-shadow: 1px 0 rgba(0, 255, 255, 0.3);
+                filter: drop-shadow(0 0 3px rgba(255, 0, 255, 0.5)) hue-rotate(60deg);
+            }
+            60% {
+                transform: translate(-1px, 1px);
+                opacity: 0.5;
+                text-shadow: 1px 0 rgba(255, 255, 0, 0.3);
+                filter: drop-shadow(0 0 2px rgba(255, 255, 0, 0.5)) hue-rotate(90deg);
+            }
+            80% {
+                transform: translate(2px, -1px);
+                opacity: 0.45;
+                text-shadow: -1px 0 rgba(0, 255, 0, 0.3);
+                filter: drop-shadow(0 0 2px rgba(0, 255, 0, 0.5)) hue-rotate(60deg);
+            }
+        }
+
+        /* 改进悬浮动画，更平滑的移动 */
+        @keyframes bgLogoFloat {
+            0% {
+                transform: translateX(70%) translateY(70%) rotateX(5deg) rotateY(8deg) rotate(-5deg);
+                filter: hue-rotate(0deg);
+            }
+            25% {
+                transform: translateX(35%) translateY(35%) rotateX(-2deg) rotateY(-4deg) rotate(2deg);
+                filter: hue-rotate(90deg);
+            }
+            50% {
+                transform: translateX(0%) translateY(0%) rotateX(3deg) rotateY(6deg) rotate(-3deg);
+                filter: hue-rotate(180deg);
+            }
+            75% {
+                transform: translateX(-35%) translateY(-35%) rotateX(-2deg) rotateY(-4deg) rotate(2deg);
+                filter: hue-rotate(270deg);
+            }
+            100% {
+                transform: translateX(-70%) translateY(-70%) rotateX(5deg) rotateY(8deg) rotate(-5deg);
+                filter: hue-rotate(360deg);
+            }
+        }
+
+        /* 增强脉冲效果，更平滑的过渡 */
+        .bg-logo-pulse {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(
+                circle,
+                rgba(0, 246, 255, 0.15) 0%,
+                rgba(0, 246, 255, 0.08) 30%,
+                transparent 70%
+            );
+            animation: pulse 15s infinite ease-in-out; /* 更平滑的脉冲 */
+            transform-origin: center;
+            pointer-events: none;
+            z-index: -1;
+            mix-blend-mode: screen;
+            opacity: 0.4; /* 降低初始不透明度 */
+        }
+
+        .bg-logo-pulse:nth-child(2n) {
+            background: radial-gradient(
+                circle,
+                rgba(255, 46, 99, 0.15) 0%,
+                rgba(255, 46, 99, 0.08) 30%,
+                transparent 70%
+            );
+            animation-delay: 5s;
+        }
+
+        .bg-logo-pulse:nth-child(3n) {
+            background: radial-gradient(
+                circle,
+                rgba(255, 255, 0, 0.15) 0%,
+                rgba(255, 255, 0, 0.08) 30%,
+                transparent 70%
+            );
+            animation-delay: 10s;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(0.8);
+                opacity: 0.2;
+            }
+            50% {
+                transform: scale(2.2);
+                opacity: 0.4;
+            }
+        }
+
+        /* 添加电子线路效果 */
+        .circuit-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.03;
+            z-index: 0;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+CiAgPHBhdGggZD0iTTAgMCBMNTAgMCBMNTAgNTAgTDEwMCA1MCBMMTAwIDEwMCBMNTAgMTAwIEw1MCA1MCBMMCAxMDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwZjZmZiIgc3Ryb2tlLXdpZHRoPSIwLjUiIHN0cm9rZS1vcGFjaXR5PSIwLjgiIC8+CiAgPHBhdGggZD0iTTAgNTAgTDUwIDAgTDUwIDUwIEwwIDEwMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDBmNmZmIiBzdHJva2Utd2lkdGg9IjAuNSIgc3Ryb2tlLW9wYWNpdHk9IjAuOCIgLz4KICA8Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSIzIiBmaWxsPSIjMDBmNmZmIiBmaWxsLW9wYWNpdHk9IjAuOCIgLz4KICA8Y2lyY2xlIGN4PSIwIiBjeT0iMCIgcj0iMiIgZmlsbD0iIzAwZjZmZiIgZmlsbC1vcGFjaXR5PSIwLjgiIC8+CiAgPGNpcmNsZSBjeD0iMTAwIiBjeT0iMTAwIiByPSIyIiBmaWxsPSIjMDBmNmZmIiBmaWxsLW9wYWNpdHk9IjAuOCIgLz4KICA8Y2lyY2xlIGN4PSI1MCIgY3k9IjAiIHI9IjIiIGZpbGw9IiMwMGY2ZmYiIGZpbGwtb3BhY2l0eT0iMC44IiAvPgogIDxjaXJjbGUgY3g9IjAiIGN5PSIxMDAiIHI9IjIiIGZpbGw9IiMwMGY2ZmYiIGZpbGwtb3BhY2l0eT0iMC44IiAvPgo8L3N2Zz4=');
+            background-repeat: repeat;
+            background-size: 100px 100px;
+            transform: rotate(45deg);
+            animation: circuitMove 60s linear infinite;
+        }
+
+        @keyframes circuitMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 100px 100px; }
+        }
+
+        /* 增强光束效果 */
+        .light-beam {
+            position: absolute;
+            background: linear-gradient(to bottom, 
+                rgba(0, 246, 255, 0) 0%, 
+                rgba(0, 246, 255, 0.8) 50%, 
+                rgba(0, 246, 255, 0) 100%);
+            height: 100vh;
+            opacity: 0;
+            animation: lightBeam 8s infinite;
+            box-shadow: 0 0 15px rgba(0, 246, 255, 0.6);
+            filter: blur(1px);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .light-beam:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -1px;
+            width: 1px;
+            height: 100%;
+            background: linear-gradient(to bottom, 
+                rgba(0, 246, 255, 0) 0%, 
+                rgba(0, 246, 255, 0.3) 50%, 
+                rgba(0, 246, 255, 0) 100%);
+            filter: blur(3px);
+        }
+
+        .light-beam:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -1px;
+            width: 1px;
+            height: 100%;
+            background: linear-gradient(to bottom, 
+                rgba(0, 246, 255, 0) 0%, 
+                rgba(0, 246, 255, 0.3) 50%, 
+                rgba(0, 246, 255, 0) 100%);
+            filter: blur(3px);
+        }
+
+        .light-beam:nth-child(2n) {
+            background: linear-gradient(to bottom, 
+                rgba(255, 46, 99, 0) 0%, 
+                rgba(255, 46, 99, 0.8) 50%, 
+                rgba(255, 46, 99, 0) 100%);
+            animation-delay: 2s;
+            z-index: 0; /* 确保所有光束都在同一图层 */
+            box-shadow: 0 0 15px rgba(255, 46, 99, 0.6);
+        }
+
+        .light-beam:nth-child(2n):before,
+        .light-beam:nth-child(2n):after {
+            background: linear-gradient(to bottom, 
+                rgba(255, 46, 99, 0) 0%, 
+                rgba(255, 46, 99, 0.3) 50%, 
+                rgba(255, 46, 99, 0) 100%);
+        }
+
+        .light-beam:nth-child(3n) {
+            background: linear-gradient(to bottom, 
+                rgba(255, 255, 0, 0) 0%, 
+                rgba(255, 255, 0, 0.8) 50%, 
+                rgba(255, 255, 0, 0) 100%);
+            animation-delay: 4s;
+            z-index: 0; /* 确保所有光束都在同一图层 */
+            box-shadow: 0 0 15px rgba(255, 255, 0, 0.6);
+        }
+
+        .light-beam:nth-child(3n):before,
+        .light-beam:nth-child(3n):after {
+            background: linear-gradient(to bottom, 
+                rgba(255, 255, 0, 0) 0%, 
+                rgba(255, 255, 0, 0.3) 50%, 
+                rgba(255, 255, 0, 0) 100%);
+        }
+
+        @keyframes lightBeam {
+            0%, 100% { 
+                opacity: 0; 
+                transform: translateX(0) scaleX(1);
+            }
+            10%, 90% { 
+                opacity: 0.3; 
+                transform: translateX(0) scaleX(1.2); 
+            }
+            50% { 
+                opacity: 0.6; 
+                transform: translateX(100vw) scaleX(0.8); 
+            }
+        }
+
+        /* 增强网站整体赛博朋克感 */
+        .cyber-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.75rem;
+            background: rgba(10, 10, 15, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 246, 255, 0.3);
+            box-shadow: 
+                0 0 30px rgba(0, 246, 255, 0.2),
+                inset 0 0 30px rgba(0, 246, 255, 0.1);
+            transition: all 0.4s ease;
+            z-index: 1;
+        }
+
+        .cyber-container:hover {
+            transform: translateY(-7px) scale(1.02);
+            box-shadow: 
+                0 15px 40px rgba(0, 246, 255, 0.4),
+                inset 0 0 30px rgba(0, 246, 255, 0.2);
+        }
+
+        .cyber-container::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.1) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: rotate(30deg);
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .cyber-container:hover::after {
+            opacity: 1;
+            animation: shine 1.5s forwards;
+        }
+
+        @keyframes shine {
+            0% {
+                transform: rotate(30deg) translateY(100%);
+            }
+            100% {
+                transform: rotate(30deg) translateY(-100%);
+            }
+        }
+
+        /* 增强按钮效果 */
+        .cyber-button-enhanced {
+            position: relative;
+            background: linear-gradient(
+                45deg,
+                rgba(0, 246, 255, 0.1),
+                rgba(0, 246, 255, 0.2)
+            );
+            color: #00f6ff;
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 12px 24px;
+            border: 1px solid rgba(0, 246, 255, 0.3);
+            border-radius: 3px;
+            box-shadow: 0 0 15px rgba(0, 246, 255, 0.2);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            z-index: 1;
+        }
+
+        .cyber-button-enhanced::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.05),
+                rgba(255, 255, 255, 0)
+            );
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+            z-index: -1;
+        }
+
+        .cyber-button-enhanced:hover {
+            color: white;
+            border-color: rgba(0, 246, 255, 0.8);
+            box-shadow: 
+                0 0 20px rgba(0, 246, 255, 0.5),
+                0 0 40px rgba(0, 246, 255, 0.3);
+            text-shadow: 0 0 5px #00f6ff;
+        }
+
+        .cyber-button-enhanced:hover::before {
+            transform: translateX(0);
+        }
+
+        /* 增强点状装饰 */
+        .cyber-dots {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .cyber-dot {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background-color: rgba(0, 246, 255, 0.8);
+            border-radius: 50%;
+            animation: dotPulse 3s infinite;
+        }
+
+        @keyframes dotPulse {
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.5); }
+        }
+
+        /* 游戏标题动态效果 */
+        .title-container {
+            position: relative;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            transition: all 0.5s ease-in-out;
+        }
+        
+        .title-text {
+            position: relative;
+            display: inline-block;
+            z-index: 1;
+        }
+        
+        .title-text .medieval {
+            background: linear-gradient(to right, #ff0066 0%, #ff4d94 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 10px rgba(255, 0, 102, 0.4));
+            position: relative;
+            animation: textPulse 4s infinite ease-in-out;
+        }
+        
+        .title-text .archer {
+            background: linear-gradient(to right, #00ccff 0%, #00ffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 10px rgba(0, 204, 255, 0.4));
+            position: relative;
+            animation: textPulse 4s infinite ease-in-out 2s;
+        }
+        
+        @keyframes textPulse {
+            0%, 100% {
+                filter: drop-shadow(0 0 8px rgba(255, 0, 102, 0.3));
+            }
+            50% {
+                filter: drop-shadow(0 0 15px rgba(255, 0, 102, 0.7));
+            }
+        }
+        
+        .title-glow {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: radial-gradient(
+                ellipse at center,
+                rgba(255, 255, 255, 0.2) 0%,
+                rgba(255, 255, 255, 0) 70%
+            );
+            filter: blur(20px);
+            opacity: 0;
+            mix-blend-mode: overlay;
+            animation: titleGlow 8s ease-in-out infinite; /* 更慢的动画 */
+            pointer-events: none;
+        }
+        
+        @keyframes titleGlow {
+            0%, 100% { 
+                opacity: 0; 
+                transform: scale(0.5) translateX(-30%); 
+            }
+            50% { 
+                opacity: 0.5; 
+                transform: scale(1) translateX(0); 
+            }
+        }
+
+        /* 改善JUNJ.US.KG品牌效果 */
+        .site-name {
+            display: inline-block;
+            font-size: 1.7em;
+            font-weight: 900;
+            letter-spacing: 2px;
+            background: linear-gradient(to right, #00f6ff, #0050c0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 12px rgba(0, 246, 255, 0.9));
+            animation: sitePulse 4s infinite;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+        }
+
+        .site-domain {
+            display: inline-block;
+            font-size: 1.4em;
+            font-weight: 700;
+            background: linear-gradient(to right, #ff2e63, #ff004c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 12px rgba(255, 46, 99, 0.9));
+            text-transform: uppercase;
+            animation: sitePulse 4s infinite 1s;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes sitePulse {
+            0%, 100% {
+                filter: drop-shadow(0 0 8px rgba(0, 246, 255, 0.7));
+            }
+            50% {
+                filter: drop-shadow(0 0 20px rgba(0, 246, 255, 1.0));
+            }
+        }
+
+        .brand-container {
+            position: relative;
+            overflow: hidden;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .brand-container:before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00f6ff, #ff2e63, #ffb300, #00f6ff);
+            background-size: 400% 400%;
+            z-index: 0;
+            animation: gradientBorder 6s ease infinite;
+            border-radius: 6px;
+            opacity: 0.7;
+        }
+
+        .brand-container:after {
+            content: '';
+            position: absolute;
+            top: 1px;
+            left: 1px;
+            right: 1px;
+            bottom: 1px;
+            background: rgba(15, 15, 18, 0.7);
+            z-index: 0;
+            border-radius: 3px;
+        }
+
+        @keyframes gradientBorder {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* 添加鼠标移动相关效果 */
+        .cyber-parallax {
+            transition: transform 0.2s ease-out;
+            will-change: transform;
+        }
+
+        .mouse-glow {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            pointer-events: none;
+            background: radial-gradient(
+                circle,
+                rgba(0, 246, 255, 0.15) 0%,
+                rgba(0, 246, 255, 0.05) 30%,
+                transparent 70%
+            );
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        /* 重新设计JUNJ.US.KG品牌效果，使其更融入整体设计 */
+        .site-name {
+            display: inline-block;
+            font-size: 1.7em;
+            font-weight: 900;
+            letter-spacing: 2px;
+            background: linear-gradient(to right, #00f6ff, #0050c0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 12px rgba(0, 246, 255, 0.9));
+            animation: sitePulse 4s infinite;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+        }
+
+        .site-domain {
+            display: inline-block;
+            font-size: 1.4em;
+            font-weight: 700;
+            background: linear-gradient(to right, #ff2e63, #ff004c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 12px rgba(255, 46, 99, 0.9));
+            text-transform: uppercase;
+            animation: sitePulse 4s infinite 1s;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes sitePulse {
+            0%, 100% {
+                filter: drop-shadow(0 0 8px rgba(0, 246, 255, 0.7));
+            }
+            50% {
+                filter: drop-shadow(0 0 20px rgba(0, 246, 255, 1.0));
+            }
+        }
+
+        /* 全新的赛博朋克风格品牌容器 */
+        .cyber-brand-container {
+            position: relative;
+            overflow: hidden;
+            padding: 0.5rem 1rem 0.5rem 1.6rem;
+            background: rgba(10, 10, 15, 0.7);
+            clip-path: polygon(
+                0 0, 
+                100% 0, 
+                100% 70%, 
+                95% 100%, 
+                0 100%, 
+                5% 70%
+            );
+            border-top: 1px solid rgba(0, 246, 255, 0.5);
+            border-bottom: 1px solid rgba(255, 46, 99, 0.5);
+        }
+
+        /* 添加科技感装饰元素 */
+        .cyber-brand-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(90deg, 
+                    transparent 0%, 
+                    transparent 5%,
+                    rgba(0, 246, 255, 0.1) 5%, 
+                    rgba(0, 246, 255, 0.1) 10%,
+                    transparent 10%,
+                    transparent 90%,
+                    rgba(255, 46, 99, 0.1) 90%,
+                    rgba(255, 46, 99, 0.1) 95%,
+                    transparent 95%
+                );
+            z-index: -1;
+        }
+
+        /* 动态扫描线效果 */
+        .cyber-brand-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 150%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(0, 246, 255, 0.1) 15%,
+                rgba(255, 255, 255, 0.3) 20%,
+                rgba(255, 46, 99, 0.1) 25%,
+                transparent 30%
+            );
+            z-index: 1;
+            animation: scanEffect 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes scanEffect {
+            0% {
+                left: -150%;
+            }
+            50% {
+                left: 150%;
+            }
+            100% {
+                left: -150%;
+            }
+        }
+
+        /* 左侧技术装饰 */
+        .cyber-brand-decoration {
+            position: absolute;
+            height: calc(100% - 6px);
+            width: 3px;
+            background: linear-gradient(to bottom, #00f6ff, transparent 40%, transparent 60%, #ff2e63);
+            left: 3px;
+            top: 3px;
+        }
+
+        .cyber-brand-decoration::before, 
+        .cyber-brand-decoration::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            left: -1.5px;
+        }
+
+        .cyber-brand-decoration::before {
+            top: -3px;
+            background: #00f6ff;
+            box-shadow: 0 0 8px #00f6ff;
+        }
+
+        .cyber-brand-decoration::after {
+            bottom: -3px;
+            background: #ff2e63;
+            box-shadow: 0 0 8px #ff2e63;
+        }
+
+        /* 增强鼠标移动效果，使其更明显和更赛博风格 */
+        .cyber-parallax {
+            transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            will-change: transform;
+        }
+
+        /* 增强的鼠标光效 */
+        .mouse-glow {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            pointer-events: none;
+            background: radial-gradient(
+                circle,
+                rgba(0, 246, 255, 0.2) 0%,
+                rgba(0, 246, 255, 0.1) 20%,
+                rgba(0, 246, 255, 0.05) 40%,
+                transparent 70%
+            );
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.2s ease;
+            z-index: 100;
+            mix-blend-mode: screen;
+        }
+
+        /* 添加鼠标跟随十字准星 */
+        .mouse-target {
+            position: fixed;
+            width: 50px;
+            height: 50px;
+            pointer-events: none;
+            z-index: 101;
+            transform: translate(-50%, -50%);
+            opacity: 0.7;
+        }
+
+        .target-line {
+            position: absolute;
+            background: rgba(0, 246, 255, 0.7);
+        }
+
+        .target-h-line {
+            height: 1px;
+            width: 100%;
+            top: 50%;
+            left: 0;
+        }
+
+        .target-v-line {
+            width: 1px;
+            height: 100%;
+            left: 50%;
+            top: 0;
+        }
+
+        .target-corner {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border: 1px solid rgba(0, 246, 255, 0.8);
+        }
+
+        .target-tl {
+            top: 0;
+            left: 0;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .target-tr {
+            top: 0;
+            right: 0;
+            border-left: none;
+            border-bottom: none;
+        }
+
+        .target-bl {
+            bottom: 0;
+            left: 0;
+            border-right: none;
+            border-top: none;
+        }
+
+        .target-br {
+            bottom: 0;
+            right: 0;
+            border-left: none;
+            border-top: none;
+        }
+
+        /* 鼠标数据指示器 */
+        .mouse-data {
+            position: fixed;
+            pointer-events: none;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 10px;
+            color: rgba(0, 246, 255, 0.8);
+            text-shadow: 0 0 5px rgba(0, 246, 255, 0.5);
+            z-index: 102;
+            text-transform: uppercase;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .data-x {
+            transform: translateX(-100%);
+            margin-left: -10px;
+        }
+
+        .data-y {
+            transform: translateY(-100%);
+            margin-top: -10px;
+        }
+
+        /* 鼠标点击效果 */
+        .mouse-click-effect {
+            position: fixed;
+            width: 100px;
+            height: 100px;
+            pointer-events: none;
+            border-radius: 50%;
+            border: 1px solid rgba(0, 246, 255, 0.8);
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            z-index: 99;
+        }
+
+        @keyframes clickRipple {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* 鼠标移动网格效果 */
+        .mouse-grid {
+            position: fixed;
+            width: 150px;
+            height: 150px;
+            pointer-events: none;
+            background-image: 
+                linear-gradient(to right, rgba(0, 246, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 246, 255, 0.1) 1px, transparent 1px);
+            background-size: 10px 10px;
+            border: 1px solid rgba(0, 246, 255, 0.3);
+            transform: translate(-50%, -50%) rotate(0deg);
+            z-index: 98;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.2s ease;
+        }
+
+        /* 新增轨迹效果样式 */
+        .mouse-trail {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            pointer-events: none;
+            background: rgba(0, 246, 255, 0.5);
+            border-radius: 50%;
+            z-index: 98;
+            opacity: 0;
+            mix-blend-mode: screen;
+            filter: blur(2px);
+        }
+
+        /* 移除鼠标相关无用的样式 */
+        .mouse-target, .target-line, .target-h-line, .target-v-line, .target-corner, .target-tl, .target-tr, .target-bl, .target-br, .mouse-data, .data-x, .data-y, .mouse-grid {
+            display: none;
+        }
+
+        /* 修改cyber-grid样式 */
+        .cyber-grid {
+            display: none;
+        }
+
+        /* 添加Game Controls和Game Features合并版块的悬停效果 */
+        .combined-section {
+            border-left: 3px solid rgba(0, 246, 255, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .combined-section:hover {
+            border-left: 3px solid #00f6ff;
+            transform: translateX(5px);
+        }
+
+        .combined-section:hover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(0, 246, 255, 0.1) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        /* 游戏容器样式 */
+        .game-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9比例 */
+            height: 0;
+            overflow: hidden;
+            background-color: #000;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2), inset 0 0 10px rgba(0, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 4px;
+        }
+
+        .game-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* 移动设备优化 */
+        @media (max-width: 768px) {
+            .game-container {
+                padding-bottom: 75%; /* 移动设备上更高的比例 */
+            }
+            
+            .ios-device .game-container {
+                -webkit-overflow-scrolling: touch; /* 提高iOS上的滚动体验 */
+                overflow-y: auto;
+            }
+        }
+
+
+        /* 增强赛博故障效果 */
+        .glitch-text {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .glitch-text::before,
+        .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+        }
+        
+        .glitch-text::before {
+            animation: glitch-effect 3s infinite ease-in-out;
+            color: #ff2e63;
+            left: -2px;
+        }
+        
+        .glitch-text::after {
+            animation: glitch-effect 2s infinite ease-in-out;
+            color: #00f6ff;
+            left: 2px;
+        }
+        
+        @keyframes glitch-effect {
+            0% { opacity: 0; transform: translate(0); }
+            1% { opacity: 0.1; }
+            2% { opacity: 0; transform: translate(-5px, 5px); }
+            3% { opacity: 0; }
+            5% { opacity: 0.1; }
+            6% { opacity: 0; transform: translate(5px, -2px); }
+            7% { opacity: 0; }
+            30% { opacity: 0; }
+            31% { opacity: 0.2; }
+            32% { opacity: 0; transform: translate(0, 3px); }
+            65% { opacity: 0; }
+            66% { opacity: 0.1; }
+            67% { opacity: 0; transform: translate(2px, -5px); }
+            100% { opacity: 0; }
+        }
+        
+        .glitch-box {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .glitch-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 10px;
+            height: 100%;
+            background: rgba(0, 246, 255, 0.5);
+            filter: blur(3px);
+            opacity: 0;
+            z-index: 10;
+            animation: glitch-line 9s infinite;
+        }
+        
+        @keyframes glitch-line {
+            0% { opacity: 0; left: -100%; }
+            1% { opacity: 0.5; left: -100%; }
+            2% { opacity: 0; left: 100%; }
+            30% { opacity: 0; left: -100%; }
+            31% { opacity: 0.7; left: -100%; }
+            32% { opacity: 0; left: 100%; }
+            70% { opacity: 0; left: -100%; }
+            71% { opacity: 0.4; left: -100%; }
+            72% { opacity: 0; left: 100%; }
+            100% { opacity: 0; left: -100%; }
+        }
+        
+        /* 屏幕故障效果 */
+        .screen-glitch {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0;
+            background: rgba(255, 46, 99, 0.1);
+            mix-blend-mode: screen;
+            animation: screen-flicker 10s infinite;
+        }
+        
+        @keyframes screen-flicker {
+            0% { opacity: 0; }
+            0.1% { opacity: 0.5; background: rgba(0, 246, 255, 0.2); }
+            0.2% { opacity: 0; }
+            15% { opacity: 0; }
+            15.1% { opacity: 0.4; background: rgba(255, 46, 99, 0.2); }
+            15.2% { opacity: 0; }
+            35% { opacity: 0; }
+            35.1% { opacity: 0.6; background: rgba(255, 255, 0, 0.2); }
+            35.2% { opacity: 0; }
+            49.9% { opacity: 0; }
+            50% { opacity: 0.7; background: rgba(0, 246, 255, 0.2); }
+            50.1% { opacity: 0; }
+            75% { opacity: 0; }
+            75.1% { opacity: 0.5; background: rgba(255, 46, 99, 0.2); transform: scale(1.2); }
+            75.2% { opacity: 0; transform: scale(1); }
+            100% { opacity: 0; }
+        }
+        
+        /* 分割线故障 */
+        .glitch-divider {
+            position: relative;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(0, 246, 255, 0.5), transparent);
+            margin: 2rem 0;
+            overflow: hidden;
+        }
+        
+        .glitch-divider::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255, 46, 99, 0.5), transparent);
+            animation: divider-shift 4s infinite alternate;
+        }
+        
+        @keyframes divider-shift {
+            0%, 90% { transform: translateX(0); opacity: 1; }
+            95% { transform: translateX(20px); opacity: 0.5; }
+            100% { transform: translateX(-20px); opacity: 0.3; }
+        }
+        
+        /* 文字超现实颤抖 */
+        .cyber-text-shake {
+            animation: text-shake 0.5s infinite alternate;
+            display: inline-block;
+        }
+        
+        @keyframes text-shake {
+            0% { transform: translate(0); }
+            25% { transform: translate(1px, 1px); }
+            50% { transform: translate(-1px, -1px); }
+            75% { transform: translate(-1px, 1px); }
+            100% { transform: translate(1px, -1px); }
+        }
+    </style>
+</head>
+<body class="bg-cyber-black text-white font-rajdhani">
+    <!-- 鼠标光效元素 -->
+    <div class="mouse-glow"></div>
+    
+    <!-- 显示信息 -->
+    <div class="cyber-info"></div>
+    
+    <!-- 网站背景效果 -->
+    <div class="cyber-background">
+        <!-- 背景脉冲效果 -->
+        <div class="bg-logo-pulse" style="top: 20%; left: 30%; width: 60vw; height: 60vw;"></div>
+        <div class="bg-logo-pulse" style="top: 60%; left: 60%; width: 40vw; height: 40vw;"></div>
+        <div class="bg-logo-pulse" style="top: 40%; left: 10%; width: 50vw; height: 50vw;"></div>
+        
+        <!-- 添加光束效果，增加数量和变化 -->
+        <div class="light-beam" style="left: 15%; width: 2px;"></div>
+        <div class="light-beam" style="left: 35%; width: 3px;"></div>
+        <div class="light-beam" style="left: 55%; width: 2px;"></div>
+        <div class="light-beam" style="left: 75%; width: 4px;"></div>
+        <div class="light-beam" style="left: 90%; width: 2px;"></div>
+        <div class="light-beam" style="left: 10%; width: 1px; animation-delay: 1s;"></div>
+        <div class="light-beam" style="left: 30%; width: 2px; animation-delay: 3s;"></div>
+        <div class="light-beam" style="left: 50%; width: 1px; animation-delay: 5s;"></div>
+        <div class="light-beam" style="left: 70%; width: 3px; animation-delay: 7s;"></div>
+        
+        <!-- 主要JUNJ背景文字 -->
+        <div class="bg-logo" style="top: 5%; left: 10%; font-size: 50vw;">JUNJ</div>
+        <div class="bg-logo" style="top: 35%; left: -40%; animation-delay: 5s;">JUNJ</div>
+        <div class="bg-logo" style="top: 60%; left: 20%; animation-delay: 10s; transform: rotate(-8deg);">JUNJ</div>
+        <div class="bg-logo" style="top: 75%; left: -25%; animation-delay: 15s; transform: rotate(8deg);">JUNJ</div>
+    </div>
+    
+    <!-- 删除装饰点 -->
+    
+    <header class="bg-cyber-darkblue shadow-lg border-b border-cyber-cyan border-opacity-30 scanline">
+        <div class="container mx-auto px-4 py-6 md:py-8">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <a href="#" class="text-2xl md:text-3xl font-bold font-orbitron cyber-brand-container">
+                        <div class="cyber-brand-decoration"></div>
+                        <span class="site-domain">GAME.</span><span class="site-name">JUNJ</span><span class="site-domain">.APP</span>
+                    </a>
+                </div>
+                <nav class="hidden md:block">
+                    <ul class="flex space-x-6 font-rajdhani">
+                        <li><a href="#" class="hover:text-cyber-cyan transition-colors uppercase tracking-wider cyber-parallax">Home</a></li>
+                        <li><a href="#controls" class="hover:text-cyber-cyan transition-colors uppercase tracking-wider cyber-parallax">Controls</a></li>
+                        <li><a href="#about" class="hover:text-cyber-cyan transition-colors uppercase tracking-wider cyber-parallax">About</a></li>
+                        <li><a href="#features" class="hover:text-cyber-cyan transition-colors uppercase tracking-wider cyber-parallax">Features</a></li>
+                    </ul>
+                </nav>
+                <button class="md:hidden text-white" id="menu-toggle" aria-label="Toggle navigation menu">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+            <div class="hidden md:hidden mt-4" id="mobile-menu">
+                <ul class="flex flex-col space-y-3 font-rajdhani">
+                    <li><a href="#" class="block hover:text-cyber-cyan transition-colors uppercase tracking-wider">Home</a></li>
+                    <li><a href="#controls" class="block hover:text-cyber-cyan transition-colors uppercase tracking-wider">Controls</a></li>
+                    <li><a href="#about" class="block hover:text-cyber-cyan transition-colors uppercase tracking-wider">About</a></li>
+                    <li><a href="#features" class="block hover:text-cyber-cyan transition-colors uppercase tracking-wider">Features</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 md:py-16">
+        <section class="text-center mb-12 glitch-box">
+            <div class="title-container cyber-container cyber-parallax">
+                <div class="title-glow"></div>
+                <h1 class="text-4xl md:text-6xl font-bold mb-4 font-orbitron title-text">
+                    <span class="medieval">Narrow</span> <span class="archer">One</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto font-rajdhani">
+                    Battle players around the world with your bow and arrow. Defend your castle against invading foes. Steal the flag with the help of your teammates and win the battle. Narrow One is a multiplayer medieval-style bow and arrow shooter, 5v5. Explore the different maps and find the hidden shortcuts.
+                </p>
+            </div>
+        </section>
+
+        <section id="controls" class="mb-10 cyber-container p-6 rounded-lg cyber-parallax">
+            <h2 class="text-3xl font-bold mb-4 font-orbitron text-cyber-yellow">⚡ Game Controls & Tips</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="text-xl font-semibold mb-3 text-cyber-cyan terminal-text">Essential Controls:</h3>
+                    <ul class="space-y-2 text-lg">
+                        <li><span class="text-cyber-yellow">WASD</span> / <span class="text-cyber-pink">⌥W⌥A⌥S⌥D</span> - Move your character</li>
+                        <li><span class="text-cyber-yellow">Mouse</span> - Aim your bow</li>
+                        <li><span class="text-cyber-yellow">Left Click</span> - Shoot arrows</li>
+                        <li><span class="text-cyber-yellow">Spacebar</span> - Jump</li>
+                        <li><span class="text-cyber-yellow">Q key / Mouse Wheel</span> - Switch between weapons</li>
+                        <li><span class="text-cyber-yellow">1-3 keys</span> - Select specific weapons</li>
+                        <li><span class="text-cyber-yellow">ESC key</span> - Access game menu</li>
+                        <li><span class="text-cyber-yellow">ALT key</span> / <span class="text-cyber-pink">⌥ Option</span> - Free cursor</li>
+                    </ul>
+                    <div class="mt-4 p-3 bg-cyber-black bg-opacity-30 border border-cyber-cyan border-opacity-20 rounded">
+                        <h4 class="font-semibold mb-2 text-cyber-cyan">Pro Tips:</h4>
+                        <ul class="space-y-1">
+                            <li>• Jump while shooting for better accuracy from high ground</li>
+                            <li>• Use ALT key (Windows) or ⌥ Option (Mac) to toggle mouse between game and browser</li>
+                            <li>• Learn map shortcuts for tactical advantages</li>
+                            <li>• Coordinate with teammates using squad voice chat</li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-3 text-cyber-pink terminal-text">Quick Tips:</h3>
+                    <ul class="space-y-2 text-lg">
+                        <li><span class="text-cyber-pink">Shop:</span> Use earned coins to buy weapons and equipment</li>
+                        <li><span class="text-cyber-pink">Graphics:</span> Adjust quality settings for better performance</li>
+                        <li><span class="text-cyber-pink">Strategy:</span> Jump while shooting for better accuracy</li>
+                        <li><span class="text-cyber-pink">Squadding:</span> Team up with friends using invitation codes</li>
+                        <li><span class="text-cyber-pink">Cursor:</span> Use ALT key (Win) or ⌥ Option (Mac) to free cursor</li>
+                        <li><span class="text-cyber-pink">Maps:</span> Learn shortcuts for tactical advantages</li>
+                        <li><span class="text-cyber-pink">Combat:</span> Use voice chat for team coordination</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold mb-6 font-orbitron text-cyber-cyan border-b border-cyber-cyan border-opacity-30 pb-3">🎮 Narrow One - 5v5 Bow Battle</h2>
+            
+            <!-- 游戏框架置于最前位置 -->
+            <div class="cyber-container rounded-lg shadow-lg overflow-hidden mb-8">
+                <div class="game-container">
+                    <iframe src="https://narrow.one/" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center">
+                            <span class="inline-block h-3 w-3 rounded-full bg-cyber-cyan mr-2 animate-pulse"></span>
+                            <span class="text-cyber-cyan font-medium font-rajdhani">ONLINE & READY</span>
+                        </div>
+                        <button id="fullscreen-btn" class="cyber-button-enhanced">
+                            <span class="desktop-text">Fullscreen</span>
+                            <span class="mobile-text" style="display:none">Full View</span>
+                        </button>
+                        <script>
+                            // 检测是否为iOS设备并更改按钮文本
+                            if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+                                document.querySelector('#fullscreen-btn .desktop-text').style.display = 'none';
+                                document.querySelector('#fullscreen-btn .mobile-text').style.display = 'inline';
+                            }
+                        </script>
+                    </div>
+                    <div class="bg-cyber-black bg-opacity-40 p-3 rounded border border-cyber-cyan border-opacity-20 mt-4">
+                        <h3 class="font-semibold text-cyber-pink text-lg mb-2">⚙️ QUICK START GUIDE</h3>
+                        <p class="text-gray-300">
+                            Click <span class="text-cyber-cyan">SETTINGS</span> in-game to adjust graphic quality. Use <span class="text-cyber-yellow">ALT key</span> (Windows) or <span class="text-cyber-pink">⌥ Option key</span> (Mac) to free your mouse cursor from the game.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 移动Weapons & Equipment部分到这里 -->
+            <section class="mb-16 cyber-container p-6 rounded-lg">
+                <h2 class="text-3xl font-bold mb-6 font-orbitron text-cyber-cyan border-b border-cyber-cyan border-opacity-30 pb-3">⚔️ Weapons & Equipment</h2>
+                <p class="mb-6 text-lg">Each weapon and item has unique attributes that can drastically change your playstyle and strategy:</p>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="cyber-box p-5 rounded-lg">
+                        <h3 class="text-xl font-semibold mb-3 text-cyber-yellow font-orbitron">Bow Types</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <span class="text-cyber-yellow mr-2 font-bold">▶</span>
+                                <div>
+                                    <p class="font-semibold">Rapid Bow</p>
+                                    <p class="text-gray-300">High fire rate with moderate damage - perfect for aggressive players</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-cyber-yellow mr-2 font-bold">▶</span>
+                                <div>
+                                    <p class="font-semibold">Heavy Bow</p>
+                                    <p class="text-gray-300">Slow but powerful - can take down enemies with fewer shots</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-cyber-yellow mr-2 font-bold">▶</span>
+                                <div>
+                                    <p class="font-semibold">Stealth Bow</p>
+                                    <p class="text-gray-300">Silent with moderate damage - ideal for sneaky approaches</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-cyber-yellow mr-2 font-bold">▶</span>
+                                <div>
+                                    <p class="font-semibold">Explosive Bow</p>
+                                    <p class="text-gray-300">Area damage effect - great for group encounters</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="cyber-box p-5 rounded-lg">
+                        <h3 class="text-xl font-semibold mb-3 text-cyber-pink font-orbitron">Cosmetic Effects</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <span class="text-cyber-pink mr-2 font-bold">▶</span>
+                                <div>
+                                    <p class="font-semibold">Arrow Trails</p>
+                                    <p class="text-gray-300">Customize your arrow's visual trail with fire, ice, lightning effects</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-cyber-pink mr-2 font-bold">▶</span>
+                                <div>
+                                    <p class="font-semibold">Character Skins</p>
+                                    <p class="text-gray-300">Change appearance with knight, ranger, or royal guard outfits</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-cyber-pink mr-2 font-bold">▶</span>
+                                <div>
+                                    <p class="font-semibold">Kill Effects</p>
+                                    <p class="text-gray-300">Add spectacular visual effects to your eliminations</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-cyber-pink mr-2 font-bold">▶</span>
+                                <div>
+                                    <p class="font-semibold">Victory Poses</p>
+                                    <p class="text-gray-300">Show off custom end-of-match celebrations</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mt-6 cyber-box p-5 rounded-lg">
+                    <h3 class="text-xl font-semibold mb-3 text-cyber-cyan font-orbitron">Tactical Equipment</h3>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div class="bg-cyber-black bg-opacity-40 p-3 rounded border border-cyber-cyan border-opacity-20">
+                            <h4 class="font-semibold text-cyber-cyan">Speed Boots</h4>
+                            <p class="text-gray-300">Increase movement speed for quick flag captures and escapes</p>
+                        </div>
+                        <div class="bg-cyber-black bg-opacity-40 p-3 rounded border border-cyber-cyan border-opacity-20">
+                            <h4 class="font-semibold text-cyber-cyan">Shield Charm</h4>
+                            <p class="text-gray-300">Reduces damage taken by 15% - perfect for defensive players</p>
+                        </div>
+                        <div class="bg-cyber-black bg-opacity-40 p-3 rounded border border-cyber-cyan border-opacity-20">
+                            <h4 class="font-semibold text-cyber-cyan">Grappling Hook</h4>
+                            <p class="text-gray-300">Reach high positions and create unexpected attack angles</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="explore-more">
+                    <p class="text-cyber-cyan text-lg font-orbitron">
+                        More weapons, equipment, and surprises await you in the game...
+                    </p>
+                    <p class="text-gray-400 mt-2">
+                        Discover unique combinations and strategies to become the ultimate archer!
+                    </p>
+                </div>
+            </section>
+            
+            <!-- 合并 About The Game 和 Squad System 内容 -->
+            <div class="cyber-container p-6 rounded-lg mb-8">
+                <h3 class="text-xl font-semibold mb-4 text-cyber-cyan font-orbitron">About The Game</h3>
+                <p class="mb-4">
+                    Battle players around the world with your bow and arrow in this exciting medieval-themed multiplayer game. Defend your castle or steal the flag with your teammates to win the battle. With 17 unique maps and hidden shortcuts, this 5v5 team-based archery game offers the perfect blend of strategy and action.
+                </p>
+                
+                <!-- 合并Game Features内容到这里 -->
+                <div class="mt-6 grid md:grid-cols-2 gap-6">
+                    <div class="bg-cyber-black bg-opacity-40 p-4 rounded border border-cyber-pink border-opacity-30">
+                        <h4 class="font-semibold text-cyber-pink mb-2 text-lg">💥 GAME FEATURES</h4>
+                        <ul class="space-y-2">
+                            <li>• <span class="font-semibold">Team-Based Combat:</span> Strategic 5v5 matches with friends or global players</li>
+                            <li>• <span class="font-semibold">Economy System:</span> Earn coins, purchase weapons and equipment</li>
+                            <li>• <span class="font-semibold">Squad System:</span> Team up with friends using invitation codes</li>
+                            <li>• <span class="font-semibold">Customization:</span> Over 200 unlockable items and weapon skins</li>
+                        </ul>
+                    </div>
+                
+                    <div class="bg-cyber-black bg-opacity-40 p-4 rounded border border-cyber-yellow border-opacity-30">
+                        <h4 class="font-semibold text-cyber-yellow mb-2 text-lg">👥 SQUAD SYSTEM</h4>
+                        <p class="mb-2">
+                            Team up with friends and dominate the battlefield together:
+                        </p>
+                        <ol class="space-y-1 ml-4">
+                            <li>1. Press ESC and select SQUAD from the menu</li>
+                            <li>2. Generate or enter an invitation code</li>
+                            <li>3. Share your code via chat or messaging apps</li>
+                            <li>4. Play together on the same team with voice chat</li>
+                        </ol>
+                        <p class="mt-2">
+                            <span class="text-cyber-cyan">Pro Tip:</span> Full squads earn 10% more coins and can create private matches with custom rules!
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6 mt-6">
+                    <div class="bg-cyber-black bg-opacity-40 p-4 rounded border border-cyber-pink border-opacity-30">
+                        <h4 class="font-semibold text-cyber-pink mb-2 text-lg">💰 ECONOMY & CUSTOMIZATION</h4>
+                        <p class="mb-2">
+                            Earn coins by playing matches and completing objectives. Visit the in-game <span class="text-cyber-yellow">SHOP</span> to purchase:
+                        </p>
+                        <ul class="space-y-1 ml-4">
+                            <li>• 6 different bows with customizable skins</li>
+                            <li>• Over 50 different melee weapons</li>
+                            <li>• More than 200 unlockable clothing items</li>
+                            <li>• Special seasonal content and event items</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-cyber-black bg-opacity-40 p-4 rounded border border-cyber-cyan border-opacity-30">
+                        <h4 class="font-semibold text-cyber-cyan mb-2 text-lg">🌍 PLAY WORLDWIDE</h4>
+                        <p class="mb-2">
+                            Connect with archers from all around the globe:
+                        </p>
+                        <ul class="space-y-1 ml-4">
+                            <li>• 17 unique maps with different game modes</li>
+                            <li>• Hidden shortcuts and tactical positions</li> 
+                            <li>• Day/night cycle affecting visibility</li>
+                            <li>• Weather effects that impact gameplay</li>
+                        </ul>
+                        <p class="mt-2">
+                            <span class="text-cyber-yellow">Note:</span> Game servers available in America, Europe, and Asia regions.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    <footer class="bg-cyber-black border-t border-cyber-cyan border-opacity-20 scanline">
+        <div class="container mx-auto px-4 py-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="cyber-container p-6 rounded-lg">
+                    <h3 class="text-xl font-semibold mb-4 font-orbitron text-cyber-cyan">About <span class="site-name">JUNJ</span></h3>
+                    <p class="text-gray-400">
+                        Your premier destination for browser-based gaming excellence. Experience the best games with no downloads required.
+                    </p>
+                </div>
+                <div class="cyber-container p-6 rounded-lg">
+                    <h3 class="text-xl font-semibold mb-4 font-orbitron text-cyber-cyan">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li class="menu-item pl-3"><a href="#" class="text-gray-400 hover:text-cyber-cyan transition-colors block py-1">Home</a></li>
+                        <li class="menu-item pl-3"><a href="#controls" class="text-gray-400 hover:text-cyber-cyan transition-colors block py-1">Controls</a></li>
+                        <li class="menu-item pl-3"><a href="#about" class="text-gray-400 hover:text-cyber-cyan transition-colors block py-1">About</a></li>
+                        <li class="menu-item pl-3"><a href="#features" class="text-gray-400 hover:text-cyber-cyan transition-colors block py-1">Features</a></li>
+                    </ul>
+                </div>
+                <div class="cyber-container p-6 rounded-lg">
+                    <h3 class="text-xl font-semibold mb-4 font-orbitron text-cyber-cyan">Legal</h3>
+                    <ul class="space-y-2">
+                        <li class="menu-item pl-3"><a href="#" class="text-gray-400 hover:text-cyber-cyan transition-colors block py-1">Terms of Service</a></li>
+                        <li class="menu-item pl-3"><a href="#" class="text-gray-400 hover:text-cyber-cyan transition-colors block py-1">Privacy Policy</a></li>
+                        <li class="menu-item pl-3"><a href="#" class="text-gray-400 hover:text-cyber-cyan transition-colors block py-1">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p><span class="site-domain">GAME.</span><span class="site-name">JUNJ</span><span class="site-domain">.APP</span></p>
+                <p class="mt-2 text-sm">This site is not affiliated with, maintained, authorized, endorsed, or sponsored by the original game creators.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('menu-toggle').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        // Fullscreen button functionality - Fixed to target the specific button
+        document.getElementById('fullscreen-btn').addEventListener('click', function() {
+            const iframe = document.querySelector('iframe');
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            
+            if (isIOS) {
+                // 针对iOS设备的处理
+                // 创建一个临时链接，直接打开游戏URL
+                const gameUrl = iframe.src;
+                const tempLink = document.createElement('a');
+                tempLink.href = gameUrl;
+                tempLink.target = '_blank';
+                tempLink.rel = 'noopener noreferrer';
+                document.body.appendChild(tempLink);
+                tempLink.click();
+                document.body.removeChild(tempLink);
+            } else {
+                // 对于其他设备，使用标准全屏API
+                if (iframe.requestFullscreen) {
+                    iframe.requestFullscreen();
+                } else if (iframe.mozRequestFullScreen) { /* Firefox */
+                    iframe.mozRequestFullScreen();
+                } else if (iframe.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+                    iframe.webkitRequestFullscreen();
+                } else if (iframe.msRequestFullscreen) { /* IE/Edge */
+                    iframe.msRequestFullscreen();
+                }
+            }
+        });
+
+        // 增强背景动态效果，更平滑的变化
+        function enhanceBackground() {
+            const cyberBackground = document.querySelector('.cyber-background');
+            if (!cyberBackground) return;
+
+            // 清空现有背景
+            cyberBackground.innerHTML = '';
+            
+            // 减少JUNJ元素数量，保持平滑过渡
+            const positions = [
+                { top: '10%', left: '15%', delay: 0 },
+                { top: '30%', left: '5%', delay: 4 },
+                { top: '70%', left: '10%', delay: 8 },
+                { top: '20%', left: '70%', delay: 12 },
+                { top: '50%', left: '60%', delay: 16 },
+                { top: '80%', left: '65%', delay: 20 },
+                { top: '40%', left: '40%', delay: 24 }
+            ];
+            
+            // 创建元素
+            positions.forEach((pos, index) => {
+                const bgLogo = document.createElement('div');
+                bgLogo.className = 'bg-logo';
+                bgLogo.style.top = pos.top;
+                bgLogo.style.left = pos.left;
+                bgLogo.style.animationDelay = `${pos.delay}s`;
+                bgLogo.innerText = 'JUNJ';
+                
+                // 设置交错的透明度和颜色，但避免突然变化
+                if (index % 3 === 0) {
+                    bgLogo.style.color = 'rgba(0, 246, 255, 0.04)';
+                } else if (index % 3 === 1) {
+                    bgLogo.style.color = 'rgba(255, 46, 99, 0.04)';
+                } else {
+                    bgLogo.style.color = 'rgba(255, 179, 0, 0.04)';
+                }
+                
+                cyberBackground.appendChild(bgLogo);
+            });
+        }
+
+        // Add glitch effect animation randomly to neon elements
+        function randomGlitch() {
+            const elements = document.querySelectorAll('.neon-text, .neon-pink, .cyber-cyan, .site-name, .site-domain');
+            const randomElement = elements[Math.floor(Math.random() * elements.length)];
+            
+            if (randomElement) {
+                randomElement.classList.add('glitch-effect');
+                setTimeout(() => {
+                    randomElement.classList.remove('glitch-effect');
+                }, 500);
+            }
+            
+            // Schedule next glitch
+            setTimeout(randomGlitch, Math.random() * 3000 + 1000);
+        }
+        
+        // 优化网站加载
+        window.addEventListener('DOMContentLoaded', function() {
+            // 初始化动态背景
+            enhanceBackground();
+            
+            // 启动随机故障效果
+            setTimeout(randomGlitch, 1500);
+            
+            // 应用赛博朋克容器效果
+            document.querySelectorAll('.cyber-panel, .enhanced-card').forEach(el => {
+                el.classList.add('cyber-container');
+            });
+            
+            // 应用增强按钮效果
+            document.querySelectorAll('.cyber-button').forEach(el => {
+                el.classList.add('cyber-button-enhanced');
+            });
+            
+            // 检测设备类型并优化显示
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            const isTV = /TV|SmartTV|SMART-TV|AppleTV|tvOS|BRAVIA|NetCast|Sharp|AQUOS|Roku/i.test(navigator.userAgent);
+            
+            if (isMobile) {
+                // 针对移动设备优化
+                document.body.classList.add('mobile-device');
+            } else if (isTV) {
+                // 针对TV设备优化
+                document.body.classList.add('tv-device');
+            }
+            
+            // 检测浏览器类型进行特定优化
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+            
+            if (isIOS || isSafari) {
+                // Safari特定优化
+                document.body.classList.add('safari-browser');
+            }
+        });
+
+        // 添加鼠标移动相关效果
+        function initParallaxEffects() {
+            const parallaxElements = document.querySelectorAll('.cyber-parallax:not(.title-container):not(#controls)');
+            const mouseGlow = document.querySelector('.mouse-glow');
+            const mouseTarget = document.querySelector('.mouse-target');
+            const dataX = document.querySelector('.data-x');
+            const dataY = document.querySelector('.data-y');
+            const mouseGrid = document.querySelector('.mouse-grid');
+            const clickEffect = document.querySelector('.mouse-click-effect');
+            
+            // 设置初始的视差效果深度，但排除标题和控制版块
+            parallaxElements.forEach(el => {
+                el.setAttribute('data-depth', Math.random() * 0.05 + 0.02); // 增加深度值
+            });
+            
+            // 移除标题和控制版块的cyber-parallax类
+            document.querySelector('.title-container').classList.remove('cyber-parallax');
+            document.querySelector('#controls').classList.remove('cyber-parallax');
+            
+            // 监听鼠标移动事件，使用requestAnimationFrame优化性能
+            let mouseX = 0, mouseY = 0;
+            let rafId = null;
+            
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                
+                // 只有当没有正在执行的动画帧请求时才创建新的
+                if (!rafId) {
+                    rafId = requestAnimationFrame(updateMouseEffects);
+                }
+            });
+            
+            function updateMouseEffects() {
+                const x = mouseX;
+                const y = mouseY;
+                
+                // 计算鼠标位置相对于视口中心的偏移
+                const centerX = window.innerWidth / 2;
+                const centerY = window.innerHeight / 2;
+                const offsetX = (x - centerX) / centerX;
+                const offsetY = (y - centerY) / centerY;
+                
+                // 应用增强视差效果，但不包括标题和控制版块
+                parallaxElements.forEach(el => {
+                    const depth = parseFloat(el.getAttribute('data-depth'));
+                    const moveX = offsetX * 50 * depth; // 增加移动幅度
+                    const moveY = offsetY * 30 * depth;
+                    const rotateZ = (offsetX * offsetY) * 2; // 添加轻微旋转
+                    el.style.transform = `translate3d(${moveX}px, ${moveY}px, 0) rotateZ(${rotateZ}deg)`;
+                });
+                
+                // 更新鼠标光效位置
+                if (mouseGlow) {
+                    mouseGlow.style.opacity = '1';
+                    mouseGlow.style.left = `${x}px`;
+                    mouseGlow.style.top = `${y}px`;
+                    
+                    // 鼠标快速移动时产生更明显的拖尾效果
+                    const speedX = Math.abs(e.movementX || 0);
+                    const speedY = Math.abs(e.movementY || 0);
+                    const speed = Math.sqrt(speedX * speedX + speedY * speedY);
+                    
+                    if (speed > 5) {
+                        mouseGlow.style.transform = `translate(-50%, -50%) scale(${1 + speed * 0.03})`;
+                        mouseGlow.style.opacity = `${Math.min(0.9, 0.5 + speed * 0.03)}`;
+                    } else {
+                        mouseGlow.style.transform = 'translate(-50%, -50%) scale(1)';
+                        mouseGlow.style.opacity = '0.5';
+                    }
+                }
+                
+                // 更新十字准星位置
+                if (mouseTarget) {
+                    mouseTarget.style.left = `${x}px`;
+                    mouseTarget.style.top = `${y}px`;
+                    
+                    // 根据移动速度进行旋转
+                    if (speed > 5) {
+                        const angle = Math.atan2(speedY, speedX) * (180 / Math.PI);
+                        mouseTarget.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+                    }
+                }
+                
+                // 更新坐标数据显示
+                if (dataX && dataY) {
+                    dataX.style.left = `${x}px`;
+                    dataX.style.top = `${y + 15}px`;
+                    dataX.textContent = `X: ${Math.round(x)}`;
+                    dataX.style.opacity = '1';
+                    
+                    dataY.style.left = `${x + 15}px`;
+                    dataY.style.top = `${y}px`;
+                    dataY.textContent = `Y: ${Math.round(y)}`;
+                    dataY.style.opacity = '1';
+                }
+                
+                // 更新网格效果
+                if (mouseGrid) {
+                    mouseGrid.style.left = `${x}px`;
+                    mouseGrid.style.top = `${y}px`;
+                    mouseGrid.style.opacity = '0.7';
+                    
+                    if (speed > 3) {
+                        const angle = Math.atan2(speedY, speedX) * (180 / Math.PI);
+                        mouseGrid.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+                    }
+                }
+                
+                // 重置动画帧请求ID
+                rafId = null;
+            }
+            
+            // 添加鼠标点击效果
+            document.addEventListener('click', (e) => {
+                if (clickEffect) {
+                    clickEffect.style.left = `${e.clientX}px`;
+                    clickEffect.style.top = `${e.clientY}px`;
+                    clickEffect.style.opacity = '1';
+                    clickEffect.style.animation = 'none';
+                    // 触发重绘
+                    void clickEffect.offsetWidth;
+                    clickEffect.style.animation = 'clickRipple 0.8s ease-out forwards';
+                }
+            });
+            
+            // 当鼠标离开视口时，隐藏效果
+            document.addEventListener('mouseout', (e) => {
+                if (!e.relatedTarget) {
+                    if (mouseGlow) mouseGlow.style.opacity = '0';
+                    if (mouseTarget) mouseTarget.style.opacity = '0';
+                    if (dataX) dataX.style.opacity = '0';
+                    if (dataY) dataY.style.opacity = '0';
+                    if (mouseGrid) mouseGrid.style.opacity = '0';
+                }
+            });
+            
+            // 当鼠标进入视口时，显示效果
+            document.addEventListener('mouseover', (e) => {
+                if (mouseGlow) mouseGlow.style.opacity = '0.5';
+                if (mouseTarget) mouseTarget.style.opacity = '0.7';
+                if (mouseGrid) mouseGrid.style.opacity = '0.7';
+            });
+        }
+        
+        // 在文档加载完成后初始化
+        window.addEventListener('DOMContentLoaded', function() {
+            // 初始化动态背景
+            enhanceBackground();
+            
+            // 初始化增强的视差效果
+            initParallaxEffects();
+            
+            // 应用赛博朋克容器效果
+            document.querySelectorAll('.cyber-panel, .enhanced-card').forEach(el => {
+                el.classList.add('cyber-container');
+            });
+            
+            // 应用增强按钮效果
+            document.querySelectorAll('.cyber-button').forEach(el => {
+                el.classList.add('cyber-button-enhanced');
+            });
+            
+            // ... 现有的其他初始化代码 ...
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // ... existing code ...
+
+            // 添加新的鼠标轨迹效果
+            function initMouseTrails() {
+                const trailsContainer = document.getElementById('mouse-trails');
+                const mouseGlow = document.querySelector('.mouse-glow');
+                const clickEffect = document.querySelector('.mouse-click-effect');
+                const trails = [];
+                const maxTrails = 10;
+                
+                // 创建鼠标轨迹元素
+                for (let i = 0; i < maxTrails; i++) {
+                    const trail = document.createElement('div');
+                    trail.className = 'mouse-trail';
+                    trail.style.opacity = '0';
+                    trailsContainer.appendChild(trail);
+                    trails.push({
+                        element: trail,
+                        x: 0,
+                        y: 0,
+                        alpha: 0,
+                        targetX: 0,
+                        targetY: 0
+                    });
+                }
+                
+                let mouseX = 0, mouseY = 0;
+                let lastMouseX = 0, lastMouseY = 0;
+                let speedX = 0, speedY = 0;
+                let isMoving = false;
+                let rafId = null;
+                
+                document.addEventListener('mousemove', (e) => {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                    
+                    // 计算速度
+                    speedX = mouseX - lastMouseX;
+                    speedY = mouseY - lastMouseY;
+                    lastMouseX = mouseX;
+                    lastMouseY = mouseY;
+                    
+                    isMoving = true;
+                    
+                    // 只有当没有正在执行的动画帧请求时才创建新的
+                    if (!rafId) {
+                        rafId = requestAnimationFrame(updateMouseEffects);
+                    }
+                });
+                
+                function updateMouseEffects() {
+                    // 更新鼠标光晕
+                    if (mouseGlow) {
+                        const speed = Math.sqrt(speedX * speedX + speedY * speedY);
+                        mouseGlow.style.opacity = isMoving ? '0.8' : '0';
+                        mouseGlow.style.left = `${mouseX}px`;
+                        mouseGlow.style.top = `${mouseY}px`;
+                        
+                        if (speed > 5) {
+                            mouseGlow.style.transform = `translate(-50%, -50%) scale(${1 + speed * 0.02})`;
+                        } else {
+                            mouseGlow.style.transform = 'translate(-50%, -50%) scale(1)';
+                        }
+                    }
+                    
+                    // 更新轨迹效果
+                    for (let i = trails.length - 1; i >= 0; i--) {
+                        const trail = trails[i];
+                        
+                        // 更新前一个点的位置
+                        if (i === trails.length - 1) {
+                            trail.targetX = mouseX;
+                            trail.targetY = mouseY;
+                        } else {
+                            trail.targetX = trails[i + 1].x;
+                            trail.targetY = trails[i + 1].y;
+                        }
+                        
+                        // 平滑过渡到目标位置
+                        trail.x += (trail.targetX - trail.x) * 0.5;
+                        trail.y += (trail.targetY - trail.y) * 0.5;
+                        
+                        // 设置不透明度
+                        const speed = Math.sqrt(speedX * speedX + speedY * speedY);
+                        const targetAlpha = isMoving ? (speed > 3 ? 0.7 : 0.3) : 0;
+                        trail.alpha += (targetAlpha - trail.alpha) * 0.1;
+                        
+                        // 应用样式
+                        trail.element.style.left = `${trail.x}px`;
+                        trail.element.style.top = `${trail.y}px`;
+                        trail.element.style.opacity = trail.alpha;
+                        trail.element.style.transform = `translate(-50%, -50%) scale(${0.8 - i * 0.07})`;
+                    }
+                    
+                    // 减弱鼠标移动状态
+                    isMoving = false;
+                    
+                    // 重置动画帧请求ID
+                    rafId = null;
+                    
+                    // 如果还在移动或淡出效果未完成，继续请求下一帧
+                    if (speedX !== 0 || speedY !== 0 || trails.some(t => t.alpha > 0)) {
+                        rafId = requestAnimationFrame(updateMouseEffects);
+                    }
+                }
+                
+                // 添加鼠标点击效果
+                document.addEventListener('click', (e) => {
+                    if (clickEffect) {
+                        clickEffect.style.left = `${e.clientX}px`;
+                        clickEffect.style.top = `${e.clientY}px`;
+                        clickEffect.style.animation = 'none';
+                        // 触发重绘
+                        void clickEffect.offsetWidth;
+                        clickEffect.style.animation = 'clickRipple 0.8s ease-out forwards';
+                    }
+                });
+                
+                // 当鼠标离开视口时，隐藏效果
+                document.addEventListener('mouseout', (e) => {
+                    if (!e.relatedTarget) {
+                        if (mouseGlow) mouseGlow.style.opacity = '0';
+                        trails.forEach(trail => {
+                            if (trail.element) {
+                                trail.element.style.opacity = '0';
+                            }
+                            trail.alpha = 0;
+                        });
+                    }
+                });
+            }
+
+            function enhanceBackground() {
+                // ... existing code ...
+            }
+
+            function setupFullscreen() {
+                // ... existing code ...
+            }
+
+            // Add glitch effect animation randomly to neon elements
+            function randomGlitch() {
+                // ... existing code ...
+            }
+
+            // 增强鼠标交互体验
+            function setupMouseEffects() {
+                const mouseGlow = document.querySelector('.mouse-glow');
+                const mouseTrails = [];
+                const maxTrails = 20;
+                
+                for(let i = 0; i < maxTrails; i++) {
+                    const trail = document.createElement('div');
+                    trail.className = 'mouse-trail';
+                    trail.style.opacity = '0';
+                    document.body.appendChild(trail);
+                    mouseTrails.push({
+                        element: trail,
+                        x: 0,
+                        y: 0,
+                        alpha: 0
+                    });
+                }
+                
+                let mouseX = 0, mouseY = 0;
+                let trailIndex = 0;
+                
+                document.addEventListener('mousemove', function(e) {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                    
+                    // 更新鼠标光晕
+                    if(mouseGlow) {
+                        mouseGlow.style.opacity = '1';
+                        mouseGlow.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+                    }
+                    
+                    // 更新鼠标轨迹
+                    const trail = mouseTrails[trailIndex];
+                    if(trail) {
+                        trail.x = mouseX;
+                        trail.y = mouseY;
+                        trail.alpha = 0.7;
+                        trail.element.style.opacity = trail.alpha;
+                        trail.element.style.transform = `translate(${trail.x}px, ${trail.y}px)`;
+                        
+                        trailIndex = (trailIndex + 1) % maxTrails;
+                    }
+                });
+                
+                // 鼠标离开窗口时淡出效果
+                document.addEventListener('mouseout', function() {
+                    if(mouseGlow) {
+                        mouseGlow.style.opacity = '0';
+                    }
+                });
+                
+                // 使用requestAnimationFrame平滑更新轨迹
+                function updateTrails() {
+                    mouseTrails.forEach(trail => {
+                        if(trail.alpha > 0) {
+                            trail.alpha -= 0.02; // 渐变消失
+                            if(trail.alpha < 0) {
+                                trail.alpha = 0;
+                            }
+                            trail.element.style.opacity = trail.alpha;
+                        }
+                    });
+                    
+                    requestAnimationFrame(updateTrails);
+                }
+                
+                updateTrails();
+            }
+            
+            // 初始化所有效果
+            document.addEventListener('DOMContentLoaded', function() {
+                // 增强JUNJ背景
+                enhanceBackground();
+                
+                // 添加鼠标效果
+                setupMouseEffects();
+                
+                // 添加故障效果
+                randomGlitch();
+                
+                // 设置全屏功能
+                setupFullscreen();
+            });
+        });
+    </script>
+</body>
+</html> 
